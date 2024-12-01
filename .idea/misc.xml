@@ -6,6 +6,7 @@
     <file type="web" url="file://$PROJECT_DIR$/com.sparta.msa_exam.auth" />
     <file type="web" url="file://$PROJECT_DIR$/com.sparta.msa_exam.config" />
     <file type="web" url="file://$PROJECT_DIR$/com.sparta.msa_exam.gateway" />
+    <file type="web" url="file://$PROJECT_DIR$/com.sparta.msa_exam.order" />
     <file type="web" url="file://$PROJECT_DIR$/com.sparta.msa_exam.product" />
   </component>
   <component name="ProjectRootManager">
