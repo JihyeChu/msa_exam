@@ -12,6 +12,15 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/com.sparta.msa_exam.config" />
+        <option name="gradleJvm" value="17" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/com.sparta.msa_exam.config" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/com.sparta.msa_exam.gateway" />
         <option name="gradleJvm" value="17" />
         <option name="modules">
