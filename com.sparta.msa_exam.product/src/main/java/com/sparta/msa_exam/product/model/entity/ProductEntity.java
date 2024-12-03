@@ -9,6 +9,10 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -29,11 +33,27 @@ public class ProductEntity {
     @Column(name = "quantity")
     private int quantity;
 
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "created_by", updatable = false)
+    private String createdBy;
+
+    @UpdateTimestamp
+    @Column(name = "modified_at" , nullable = false)
+    private LocalDateTime modifiedAt;
+
+    @Column(name = "modified_by")
+    private String modifiedBy;
+
     @Builder
-    public ProductEntity(String name, int supplyPrice, int quantity) {
+    public ProductEntity(String name, int supplyPrice, int quantity, String username) {
         this.name = name;
         this.supplyPrice = supplyPrice;
         this.quantity = quantity;
+        this.createdBy = username;
+        this.modifiedBy = username;
     }
 
 }
