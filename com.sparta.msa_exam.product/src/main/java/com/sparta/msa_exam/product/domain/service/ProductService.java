@@ -8,6 +8,7 @@ import com.sparta.msa_exam.product.model.entity.ProductEntity;
 import com.sparta.msa_exam.product.model.repository.ProductRepository;
 import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,20 @@ public class ProductService {
 
     }
 
+    @Transactional(readOnly = true)
+    public ResponseEntity<ResDTO<ResProductGetDTO>> getAllProduct(Pageable pageable) {
+
+        Page<ProductEntity> productEntityPage = productRepository.findAll(pageable);
+
+        return new ResponseEntity<>(
+                ResDTO.<ResProductGetDTO>builder()
+                        .code(HttpStatus.OK.value())
+                        .message("상품 조회에 성공했습니다.")
+                        .data(ResProductGetDTO.of(productEntityPage))
+                        .build(),
+                HttpStatus.OK
+        );
+    }
 
 }
 

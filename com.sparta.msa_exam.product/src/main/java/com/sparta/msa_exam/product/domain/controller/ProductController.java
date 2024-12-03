@@ -12,8 +12,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/products")
@@ -23,13 +21,17 @@ public class ProductController {
 
     // 상품 생성
     @PostMapping
-    public ResponseEntity<ResDTO<ResProductPostDTO>> createProduct(@RequestHeader("X-User-Name") String username,
+    public ResponseEntity<ResDTO<ResProductPostDTO>> createProduct(@RequestParam String username,
                                                                    @RequestBody ReqProductPostDTO reqDto) {
 
         return productService.createProduct(username, reqDto);
     }
 
-
+    // 상품 전체 조회
+    @GetMapping
+    public ResponseEntity<ResDTO<ResProductGetDTO>> getAllProduct(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return productService.getAllProduct(pageable);
+    }
 
 
 }
