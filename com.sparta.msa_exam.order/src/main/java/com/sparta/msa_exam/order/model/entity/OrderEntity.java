@@ -3,7 +3,10 @@ package com.sparta.msa_exam.order.model.entity;
 import com.sparta.msa_exam.order.model.enums.OrderStatus;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,15 +16,16 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Table(name = "orders")
 public class OrderEntity {
 
     @Id @Tsid
     @Column(name = "order_id")
     private Long id;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -43,5 +47,19 @@ public class OrderEntity {
 
     @Column(name = "modified_by")
     private String modifiedBy;
+
+    @Builder
+    public OrderEntity(Long userId, String username, List<OrderProductEntity> orderProducts) {
+        this.userId = userId;
+        this.createdBy = username;
+        this.modifiedBy = username;
+        this.status = OrderStatus.PROCESSING;
+        addOrderProductEntities(orderProducts);
+    }
+
+    public void addOrderProductEntities(List<OrderProductEntity> orderProductEntities){
+        this.orderProducts.addAll(orderProductEntities);
+        orderProductEntities.forEach(orderProductEntity -> orderProductEntity.updateOrderEntity(this));
+    }
 
 }
