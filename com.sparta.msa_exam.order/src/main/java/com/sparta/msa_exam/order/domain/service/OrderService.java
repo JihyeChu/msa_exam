@@ -8,6 +8,7 @@ import com.sparta.msa_exam.order.domain.dto.res.ResProductGetDTO;
 import com.sparta.msa_exam.order.model.entity.OrderEntity;
 import com.sparta.msa_exam.order.model.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -46,17 +47,17 @@ public class OrderService {
     }
 
     private static Map<Long, Integer> getMap(ResProductGetDTO clientBy) {
-        return clientBy.getProducts()
+        return clientBy.getProductDTOList()
                 .stream()
                 .collect(Collectors.toMap(
-                        ResProductGetDTO.Product::getProductId,
-                        ResProductGetDTO.Product::getSupplyPrice
+                        ResProductGetDTO.ProductDTO::getProductId,
+                        ResProductGetDTO.ProductDTO::getSupplyPrice
                 ));
     }
 
     private static List<Long> getIds(ReqOrderPostDTO dto) {
-        return dto.getProductList().stream()
-                .map(ReqOrderPostDTO.Product::getProductId)
+        return dto.getProductDTOList().stream()
+                .map(ReqOrderPostDTO.ProductDTO::getProductId)
                 .toList();
     }
 }

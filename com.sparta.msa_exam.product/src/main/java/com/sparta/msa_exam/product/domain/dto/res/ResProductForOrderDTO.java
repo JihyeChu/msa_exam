@@ -14,11 +14,11 @@ import java.util.List;
 @AllArgsConstructor
 public class ResProductForOrderDTO {
 
-    private List<Product> products;
+    private List<ProductDTO> productDTOList;
 
     public static ResProductForOrderDTO of(List<ProductEntity> productEntities) {
         return ResProductForOrderDTO.builder()
-                .products(Product.from(productEntities))
+                .productDTOList(ProductDTO.from(productEntities))
                 .build();
     }
 
@@ -26,20 +26,20 @@ public class ResProductForOrderDTO {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Product {
+    public static class ProductDTO {
 
         private Long productId;
         private String name;
         private int supplyPrice;
 
-        private static List<Product> from(List<ProductEntity> productEntities) {
+        private static List<ProductDTO> from(List<ProductEntity> productEntities) {
             return productEntities.stream()
-                    .map(Product::from)
+                    .map(ProductDTO::from)
                     .toList();
         }
 
-        private static Product from(ProductEntity productEntity) {
-            return Product.builder()
+        private static ProductDTO from(ProductEntity productEntity) {
+            return ProductDTO.builder()
                     .productId(productEntity.getId())
                     .name(productEntity.getName())
                     .supplyPrice(productEntity.getSupplyPrice())

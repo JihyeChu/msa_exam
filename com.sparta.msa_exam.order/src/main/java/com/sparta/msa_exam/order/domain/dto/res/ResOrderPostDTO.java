@@ -15,11 +15,11 @@ import java.util.List;
 @AllArgsConstructor
 public class ResOrderPostDTO {
 
-    private Order order;
+    private OrderDTO orderDTO;
 
     public static ResOrderPostDTO of(OrderEntity orderEntity) {
         return ResOrderPostDTO.builder()
-                .order(Order.from(orderEntity, orderEntity.getOrderProducts()))
+                .orderDTO(OrderDTO.from(orderEntity, orderEntity.getOrderProducts()))
                 .build();
     }
 
@@ -27,17 +27,17 @@ public class ResOrderPostDTO {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    private static class Order {
+    private static class OrderDTO {
 
         private String createdBy;
         private String status;
-        private List<OrderProduct> orderProducts;
+        private List<OrderProductDTO> orderProductDTOList;
 
-        private static Order from(OrderEntity orderEntity, List<OrderProductEntity> orderLineEntities) {
-            return Order.builder()
+        private static OrderDTO from(OrderEntity orderEntity, List<OrderProductEntity> orderLineEntities) {
+            return OrderDTO.builder()
                     .createdBy(orderEntity.getCreatedBy())
                     .status(orderEntity.getStatus().getStatus())
-                    .orderProducts(OrderProduct.from(orderLineEntities))
+                    .orderProductDTOList(OrderProductDTO.from(orderLineEntities))
                     .build();
         }
 
@@ -46,23 +46,23 @@ public class ResOrderPostDTO {
         @Builder
         @NoArgsConstructor
         @AllArgsConstructor
-        private static class OrderProduct {
+        private static class OrderProductDTO {
 
             private Long productId;
             private int count;
             private int supplyPrice;
 
-            private static List<OrderProduct> from(List<OrderProductEntity> orderProductEntities) {
+            private static List<OrderProductDTO> from(List<OrderProductEntity> orderProductEntities) {
                 return orderProductEntities.stream()
-                        .map(OrderProduct::from)
+                        .map(OrderProductDTO::from)
                         .toList();
             }
 
-            private static OrderProduct from(OrderProductEntity orderLineEntity) {
-                return OrderProduct.builder()
-                        .productId(orderLineEntity.getProductId())
-                        .count(orderLineEntity.getCount())
-                        .supplyPrice(orderLineEntity.getSupplyPrice())
+            private static OrderProductDTO from(OrderProductEntity orderProductEntity) {
+                return OrderProductDTO.builder()
+                        .productId(orderProductEntity.getProductId())
+                        .count(orderProductEntity.getCount())
+                        .supplyPrice(orderProductEntity.getSupplyPrice())
                         .build();
             }
         }
