@@ -29,7 +29,7 @@ public class OrderEntity {
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<OrderProductEntity> orderProducts = new ArrayList<>();
@@ -53,7 +53,7 @@ public class OrderEntity {
         this.userId = userId;
         this.createdBy = username;
         this.modifiedBy = username;
-        this.status = OrderStatus.PROCESSING;
+        this.orderStatus = OrderStatus.PROCESSING;
         addOrderProductEntities(orderProducts);
     }
 
