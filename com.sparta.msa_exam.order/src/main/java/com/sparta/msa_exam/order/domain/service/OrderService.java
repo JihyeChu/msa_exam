@@ -2,12 +2,10 @@ package com.sparta.msa_exam.order.domain.service;
 
 import com.sparta.msa_exam.order.domain.client.ProductClient;
 import com.sparta.msa_exam.order.domain.dto.req.ReqOrderPostDTO;
-import com.sparta.msa_exam.order.domain.dto.res.ResDTO;
-import com.sparta.msa_exam.order.domain.dto.res.ResOrderGetByIdDTO;
-import com.sparta.msa_exam.order.domain.dto.res.ResOrderPostDTO;
-import com.sparta.msa_exam.order.domain.dto.res.ResProductGetDTO;
+import com.sparta.msa_exam.order.domain.dto.res.*;
 import com.sparta.msa_exam.order.model.entity.OrderEntity;
 import com.sparta.msa_exam.order.model.repository.OrderRepository;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +26,7 @@ public class OrderService {
     private final ProductClient productClient;
 
     @Transactional
+    @CircuitBreaker(name = "orderService", fallbackMethod = "handlerOrderPostFailure")
     public ResponseEntity<ResDTO<ResOrderPostDTO>> createOrder(Long userId, String username, ReqOrderPostDTO dto) {
 
         List<Long> productIds = getIds(dto);
@@ -45,6 +44,21 @@ public class OrderService {
                         .data(ResOrderPostDTO.of(orderEntity))
                         .build(),
                 HttpStatus.OK
+        );
+    }
+
+    public ResponseEntity<ResDTO<Object>> handlerOrderPostFailure(Long userId, String username, ReqOrderPostDTO dto, Throwable t) {
+        return new ResponseEntity<>(
+                ResDTO.builder()
+                        .code(HttpStatus.SERVICE_UNAVAILABLE.value())
+                        .message("잠시 후에 주문 추가를 요청 해주세요.")
+                        .data(
+                                ResOrderFailureDTO.of(
+                                        t.getLocalizedMessage(), userId, username, dto
+                                )
+                        )
+                        .build(),
+                HttpStatus.SERVICE_UNAVAILABLE
         );
     }
 

@@ -36,7 +36,7 @@ public class ResOrderPostDTO {
         private static OrderDTO from(OrderEntity orderEntity, List<OrderProductEntity> orderLineEntities) {
             return OrderDTO.builder()
                     .createdBy(orderEntity.getCreatedBy())
-                    .status(orderEntity.getStatus().getStatus())
+                    .status(orderEntity.getOrderStatus().getStatus())
                     .orderProductDTOList(OrderProductDTO.from(orderLineEntities))
                     .build();
         }
