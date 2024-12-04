@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
-    Optional<ProductEntity> findByName(@NotBlank(message = "상품 이름을 입력해주세요.") String name);
+    Optional<ProductEntity> findByName(String name);
 }

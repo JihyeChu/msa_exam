@@ -18,9 +18,9 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<ResDTO<ResOrderPostDTO>> createOrder(@RequestHeader("X-User-Id") Long userId,
                                                                @RequestParam String username,
-                                                               @RequestBody ReqOrderPostDTO reqDto) {
+                                                               @RequestBody ReqOrderPostDTO dto) {
 
-        return orderService.createOrder(userId, username, reqDto);
+        return orderService.createOrder(userId, username, dto);
     }
 
 }

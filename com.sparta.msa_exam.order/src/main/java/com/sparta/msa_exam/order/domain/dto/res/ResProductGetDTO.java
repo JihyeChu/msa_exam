@@ -9,11 +9,11 @@ import java.util.List;
 @NoArgsConstructor
 public class ResProductGetDTO {
 
-    private List<Product> products;
+    private List<ProductDTO> productDTOList;
 
     @Getter
     @NoArgsConstructor
-    public static class Product {
+    public static class ProductDTO {
         private Long productId;
         private String name;
         private int supplyPrice;

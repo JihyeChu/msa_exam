@@ -5,6 +5,7 @@ import com.sparta.msa_exam.order.model.entity.OrderProductEntity;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,23 +18,23 @@ public class ReqOrderPostDTO {
 
     @Valid
     @NotNull(message = "상품 정보를 입력해주세요.")
-    private List<Product> productList;
+    private List<ProductDTO> productDTOList;
 
     public OrderEntity toEntity(Long userId, String username, Map<Long, Integer> supplyPriceMap) {
         return OrderEntity.builder()
                 .userId(userId)
                 .username(username)
                 .orderProducts(
-                        productList.stream().map(product -> product.from(supplyPriceMap.get(product.getProductId()))).toList()
+                        productDTOList.stream().map(productDTO -> productDTO.from(supplyPriceMap.get(productDTO.productId))).toList()
                 )
                 .build();
     }
 
     @Getter
     @NoArgsConstructor
-    public static class Product{
+    public static class ProductDTO {
 
-        @NotNull(message = "상품 id를 입력해주세요.")
+        @NotNull(message = "상품 ID를 입력해주세요.")
         private Long productId;
 
         @NotBlank(message = "주문 수량을 입력해주세요.")
@@ -46,7 +47,7 @@ public class ReqOrderPostDTO {
                     .supplyPrice(supplyPrice * count)
                     .build();
         }
-
     }
+
 
 }
